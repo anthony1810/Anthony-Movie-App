@@ -8,9 +8,8 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
-DOMAIN = https:/$()/api.themoviedb.org
-API_ENDPOINT = /3
+DOMAIN = https:/$()/itunes.apple.com/search
+API_ENDPOINT = /?
 
 IMAGE_DOMAIN = https:/$()/is1-ssl.mzstatic.com/image/thumb
 
-API_TOKEN = a7b3c9975791294647265c71224a88ad

@@ -8,15 +8,15 @@
 import Moya
 
 public enum HomeAPI {
-    case search
+    case search(term: String)
 }
 
 extension HomeAPI: TargetType {
     public var baseURL: URL { return Environment.apiUrl }
     public var path: String {
         switch self {
-        case .search:
-            return "/trending/movie/day"
+        case .search(let term):
+            return "term=\(term)&country=au&media=movie&;all"
         }
     }
     
@@ -26,9 +26,8 @@ extension HomeAPI: TargetType {
     
     public var task: Task {
         switch self {
-        default:
-            return .requestParameters(parameters: ["api_key": Environment.apiKey],
-                                      encoding: URLEncoding.default)
+        case .search:
+              return .requestPlain
         }
     }
     

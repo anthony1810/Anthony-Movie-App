@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 
 protocol HomeServiceType {
-    
+    func search(term: String) -> Single<MovieListModel>
 }
 
 class HomeService: HomeServiceType, NetworkingType {
@@ -18,6 +18,10 @@ class HomeService: HomeServiceType, NetworkingType {
     
     init() {
         provider = ApiProvider(plugins: HomeService.plugins)
+    }
+    
+    func search(term: String) -> Single<MovieListModel> {
+        return provider.requestObject(.search(term: term), type: MovieListModel.self)
     }
     
 }
