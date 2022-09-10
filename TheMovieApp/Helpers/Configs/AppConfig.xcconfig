@@ -8,8 +8,7 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
-DOMAIN = https:/$()/itunes.apple.com/search
-API_ENDPOINT = /?
-
+DOMAIN = https:/$()/itunes.apple.com
+API_ENDPOINT = 
 IMAGE_DOMAIN = https:/$()/is1-ssl.mzstatic.com/image/thumb
 

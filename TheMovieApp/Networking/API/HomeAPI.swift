@@ -12,11 +12,11 @@ public enum HomeAPI {
 }
 
 extension HomeAPI: TargetType {
-    public var baseURL: URL { return Environment.apiUrl }
+    public var baseURL: URL { return Environment.onlyDomainURL }
     public var path: String {
         switch self {
-        case .search(let term):
-            return "term=\(term)&country=au&media=movie&;all"
+        case .search:
+            return "/search"
         }
     }
     
@@ -26,8 +26,8 @@ extension HomeAPI: TargetType {
     
     public var task: Task {
         switch self {
-        case .search:
-              return .requestPlain
+        case .search(let term):
+            return .requestParameters(parameters: ["term": term, "country": "au", "media": "movie"], encoding: URLEncoding.queryString)
         }
     }
     
