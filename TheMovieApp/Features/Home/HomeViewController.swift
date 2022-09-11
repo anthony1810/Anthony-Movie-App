@@ -26,6 +26,15 @@ class HomeViewController: BaseViewController, BindableType {
         }
     }
     
+
+    @IBOutlet weak var lblNotice: UILabel!
+    @IBOutlet weak var btnArchive: UIButton! {
+        didSet {
+            let image = UIImage(systemName: "")
+            btnArchive.setImage(image, for: .normal)
+        }
+    }
+    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
@@ -39,12 +48,12 @@ class HomeViewController: BaseViewController, BindableType {
 
             collectionView.dataSource = self
             collectionView.delegate = self
-            
-//            collectionView.emptyDataSetView { [weak self] (view) in
-//                guard let `self` = self else { return }
-//                EmptyViewType.titles(frame: self.collectionView.bounds).makeCustomView(onView: view)
-//            }
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "The Movie App"
     }
     
     internal func bindViewModel() {
@@ -52,8 +61,26 @@ class HomeViewController: BaseViewController, BindableType {
         viewModel.transform(input: input)
         
         viewModel.output?.reloadContent.drive(onNext: { [unowned self] section in
-            self.dataInput.append(section)
-        }).disposed(by: rx.disposeBag)
+            self.dataInput = [section]
+        })
+        .disposed(by: rx.disposeBag)
+        
+        viewModel.output?.reloadContent
+            .map { $0.elements.count > 0 ? true : false }
+            .drive(lblNotice.rx.isHidden)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.output?.reloadContent.drive(onNext: { [unowned self] section in
+            guard let searchText = searchBar.text else { return }
+            switch (section.elements.count, searchText.count) {
+            case (0, 1...Int.max):
+                lblNotice.text = "There are no movie matches with that name"
+            default:
+                lblNotice.text = "Search your favorite movie now!"
+            }
+        })
+        .disposed(by: rx.disposeBag)
+            
         
         if let unwrapTrigger = viewModel.output?.itemDetailTrigger {
             collectionView.rx.itemSelected
