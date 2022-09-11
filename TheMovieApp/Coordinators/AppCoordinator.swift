@@ -11,7 +11,7 @@ import Resolver
 import RxSwift
 
 enum AppRoute: Route {
-    case main
+    case home
     case detail(movieId: Int)
     case backToRoot
 }
@@ -21,13 +21,17 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
     var strongMainRouter: StrongRouter<AppRoute>!
     
     init() {
-        super.init(initialRoute: .main)
+        super.init(initialRoute: .home)
     }
     
     // MARK: Overrides
     
     override func prepareTransition(for route: AppRoute) -> NavigationTransition {
         switch route {
+        case .home:
+            let viewController = R.storyboard.main.homeViewController()!
+            viewController.bind(to: HomeViewModel(router: unownedRouter))
+            return .push(viewController)
         default: return .popToRoot()
         }
     }

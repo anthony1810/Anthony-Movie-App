@@ -14,6 +14,8 @@ protocol MovieDataType {
     var artwork: String? { get }
     var price: Double? { get }
     var genre: String? { get }
+    var longDesc: String? { get }
+    var shortDesc: String? { get }
     
     var isFavorite: Bool? { get set }
 }
@@ -25,6 +27,8 @@ class MovieDataView: MovieDataType, Equatable {
     var artwork: String?
     var price: Double?
     var genre: String?
+    var longDesc: String?
+    var shortDesc: String?
     
     var isFavorite: Bool?
     
@@ -34,7 +38,9 @@ class MovieDataView: MovieDataType, Equatable {
               let trackName = data.trackName,
               let artwork = data.artworkUrl100,
               let trackPrice = data.trackPrice,
-              let genre = data.primaryGenreName
+              let genre = data.primaryGenreName,
+              let longDesc = data.longDescription,
+              let shortDesc = data.shortDescription
         else { return nil }
         
         self.id = id
@@ -42,6 +48,9 @@ class MovieDataView: MovieDataType, Equatable {
         self.artwork = artwork
         self.price = trackPrice
         self.genre = genre
+        self.longDesc = longDesc
+        self.shortDesc = shortDesc
+        
         self.isFavorite = false
     }
     
@@ -51,6 +60,8 @@ class MovieDataView: MovieDataType, Equatable {
             && lhs.artwork.orStringEmpty == rhs.artwork.orStringEmpty
             && lhs.price.orZero == rhs.price.orZero
             && lhs.genre.orStringEmpty == rhs.genre.orStringEmpty
+            && lhs.longDesc.orStringEmpty == rhs.longDesc.orStringEmpty
+            && lhs.shortDesc.orStringEmpty == rhs.shortDesc.orStringEmpty
             && lhs.isFavorite.orFalse == rhs.isFavorite.orFalse
     }
 }

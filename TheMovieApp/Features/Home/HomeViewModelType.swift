@@ -10,35 +10,25 @@ import RxCocoa
 import DifferenceKit
 
 protocol HomeInputType {
-    var pullToRefresh: Driver<Void> { get }
-    var willAppear: Observable<Bool> { get }
+    var searchTextDidChange: Observable<String> { get }
 }
 
 struct HomeInput: HomeInputType {
-    var pullToRefresh: Driver<Void>
-    var willAppear: Observable<Bool>
+    var searchTextDidChange: Observable<String>
 }
 
 // MARK: - Output
 protocol HomeOutputType {
     typealias Section = ArraySection<String, MovieDataView>
-    
-    var reloadCell: Driver<[Section]> { get }
-    
-    var loading: Observable<Bool> { get }
-    
-    var itemDetailTrigger: AnyObserver<Int> { get }
+    var reloadContent: Driver<Section> { get }
+    var itemDetailTrigger: AnyObserver<MovieDataView> { get }
 }
 
 struct HomeOutput: HomeOutputType {
     
     typealias Section = ArraySection<String, MovieDataView>
-    
-    var reloadCell: Driver<[Section]>
-  
-    var loading: Observable<Bool>
-    
-    var itemDetailTrigger: AnyObserver<Int>
+    var reloadContent: Driver<Section>
+    var itemDetailTrigger: AnyObserver<MovieDataView>
 }
 
 // MARK: - HomeViewModelType

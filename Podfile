@@ -19,6 +19,7 @@ target 'TheMovieApp' do
   pod 'SnapKit'
 
   # control
+  pod 'EmptyDataSet-Swift'
   pod 'SwiftEntryKit'
   pod 'DifferenceKit'
   pod 'Cosmos'

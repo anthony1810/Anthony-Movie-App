@@ -28,9 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ///
         mainWindow.backgroundColor = .white
         appCoordinator.strongRouter.setRoot(for: mainWindow)
-        
-        apiService.search(term: "star")
-            .subscribe()
+
         return true
     }
 

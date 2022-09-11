@@ -21,4 +21,8 @@ struct Constants {
         static let defaultFullAPIFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         static let dateWithOnlyMonthFormat = "MMMM yyyy"
     }
+    
+    struct reuseIdentifier {
+        static let movieCell = "MovieCell"
+    }
 }

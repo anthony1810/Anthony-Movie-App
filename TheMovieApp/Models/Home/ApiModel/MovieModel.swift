@@ -16,6 +16,8 @@ struct MovieModel: Mappable {
     var artworkUrl100: String?
     var trackPrice: Double?
     var primaryGenreName: String?
+    var longDescription: String?
+    var shortDescription: String?
     
     init?(map: Map) { }
     
@@ -29,5 +31,7 @@ struct MovieModel: Mappable {
         artworkUrl100 <- map["artworkUrl100"]
         trackPrice <- map["trackPrice"]
         primaryGenreName <- map["primaryGenreName"]
+        longDescription <- map["longDescription"]
+        shortDescription <- map["shortDescription"]
     }
 }

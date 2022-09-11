@@ -10,6 +10,7 @@ PODS:
   - DifferenceKit/Core (1.2.0)
   - DifferenceKit/UIKitExtension (1.2.0):
     - DifferenceKit/Core
+  - EmptyDataSet-Swift (5.0.0)
   - Kingfisher (7.0.0)
   - lottie-ios (3.2.3)
   - Moya/Core (14.0.0):
@@ -44,6 +45,7 @@ DEPENDENCIES:
   - Action
   - Cosmos
   - DifferenceKit
+  - EmptyDataSet-Swift
   - Kingfisher
   - lottie-ios
   - Moya/RxSwift
@@ -62,6 +64,7 @@ SPEC REPOS:
     - Alamofire
     - Cosmos
     - DifferenceKit
+    - EmptyDataSet-Swift
     - Kingfisher
     - lottie-ios
     - Moya
@@ -83,6 +86,7 @@ SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
   Cosmos: b5c6a9a637e28a061b54c8f8b1d8529d7d4db73f
   DifferenceKit: 5659c430bb7fe45876fa32ce5cba5d6167f0c805
+  EmptyDataSet-Swift: eb382c0c87a2d9c678077385a595cec52da38171
   Kingfisher: 5efc54fec3980f92354898532e562cc17f31efb4
   lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
@@ -99,6 +103,6 @@ SPEC CHECKSUMS:
   SwiftEntryKit: 537c92699d6034efb1ef9c32b11e0b37c97aa589
   XCoordinator: 9ee654fedef1ffede33d5c11677708a555c00542
 
-PODFILE CHECKSUM: b2df5433c6a93d908566cd205ac6dce338eca8ee
+PODFILE CHECKSUM: 190c6c17debecab3efc9ce2d383f53afd3f9c174
 
 COCOAPODS: 1.11.2
