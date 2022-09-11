@@ -15,7 +15,15 @@ class MovieCell: UICollectionViewCell {
     @IBOutlet weak var imgArtwork: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblDesc: UILabel!
-    @IBOutlet weak var btnFavorite: UIButton!
+    @IBOutlet weak var btnFavorite: UIButton! {
+        didSet {
+            btnFavorite.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
+            btnFavorite.tintColor = .systemPink
+        }
+    }
+    @IBOutlet weak var lblPrice: UILabel!
+    @IBOutlet weak var lblGenre: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,11 +42,14 @@ class MovieCell: UICollectionViewCell {
     func bind(to data: MovieCellModelType) {
         rx.disposeBag.insert(
             data.artworkURL.drive(imgArtwork.rx
-                .imageURL(withPlaceholder: nil,
+                .imageURL(withPlaceholder: UIImage(systemName: "photo"),
                           options: [.transition(.fade(0.25)),
                                     .cacheMemoryOnly])),
             data.name.drive(lblTitle.rx.text),
-            data.desc.drive(lblDesc.rx.text)
+            data.desc.drive(lblDesc.rx.text),
+            data.price.drive(lblPrice.rx.text),
+            data.genre.drive(lblGenre.rx.text),
+            data.isFavorite.map { !$0 }.drive(btnFavorite.rx.isHidden)
         )
     }
 
