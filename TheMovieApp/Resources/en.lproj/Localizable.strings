@@ -8,3 +8,5 @@
  ///Alert
  "alert.confirm" = "OK";
  "alert.cancel" = "Cancel";
+"movie.detail.addToFavorite" = "Add To Favorite";
+"movie.detail.removeFromFavorite" = "Remove From Favorite";

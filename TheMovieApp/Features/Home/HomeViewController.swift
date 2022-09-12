@@ -12,6 +12,7 @@ import EmptyDataSet_Swift
 import DifferenceKit
 import Action
 import Resolver
+import RxAppState
 
 class HomeViewController: BaseViewController, BindableType {
 

@@ -12,7 +12,7 @@ import RxSwift
 
 enum AppRoute: Route {
     case home
-    case detail(movieId: Int)
+    case detail(movie: MovieDataType)
     case backToRoot
 }
 
@@ -32,6 +32,10 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
             let viewController = R.storyboard.main.homeViewController()!
             viewController.bind(to: HomeViewModel(router: unownedRouter))
             return .push(viewController)
+        case .detail(let movie):
+            let movieDetailViewController = R.storyboard.main.movieDetailViewController()!
+            movieDetailViewController.bind(to: MovieDetailViewModel(router: unownedRouter, movie: movie))
+            return .showDetail(movieDetailViewController)
         default: return .popToRoot()
         }
     }

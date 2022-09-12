@@ -55,8 +55,7 @@ class HomeViewModel: ViewModel, HomeViewModelType {
     }
     
     private lazy var itemDetailAction = Action<MovieDataView, Void> { [unowned self] item in
-        guard let id = item.id else { return .just(()) }
-        return self.router.rx.trigger(.detail(movieId: id))
+        return self.router.rx.trigger(.detail(movie: item))
     }
 }
 

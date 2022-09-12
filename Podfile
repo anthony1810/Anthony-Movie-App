@@ -37,6 +37,10 @@ target 'TheMovieApp' do
                   config.build_settings['SWIFT_VERSION'] = '5.1'
               end
           end
+          
+          target.build_configurations.each do |config|
+           config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+          end
       end
 
       # only use for xcode 14 build on simulator

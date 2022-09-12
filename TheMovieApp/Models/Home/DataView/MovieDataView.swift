@@ -54,6 +54,8 @@ class MovieDataView: MovieDataType, Equatable {
         self.isFavorite = false
     }
     
+    init() {}
+    
     static func == (lhs: MovieDataView, rhs: MovieDataView) -> Bool {
         return lhs.id.orZero == rhs.id.orZero
             && lhs.name.orStringEmpty == rhs.name.orStringEmpty

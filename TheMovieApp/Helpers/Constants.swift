@@ -24,5 +24,6 @@ struct Constants {
     
     struct reuseIdentifier {
         static let movieCell = "MovieCell"
+        static let movieDetailCell = "MovieDetailCell"
     }
 }
