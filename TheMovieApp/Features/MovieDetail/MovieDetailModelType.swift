@@ -20,12 +20,12 @@ struct MovieDetailInput: MovieDetailInputType {
 
 //MARK: - Output
 protocol MovieDetailOutputType {
-    var favoriteActionTrigger: AnyObserver<Void> { get }
+    var favoriteActionTrigger: AnyObserver<Data> { get }
     var data: Driver<MovieDataType> { get }
 }
 
 struct MovieDetailOutput: MovieDetailOutputType {
-    var favoriteActionTrigger: AnyObserver<Void>
+    var favoriteActionTrigger: AnyObserver<Data>
     var data: Driver<MovieDataType>
 }
 

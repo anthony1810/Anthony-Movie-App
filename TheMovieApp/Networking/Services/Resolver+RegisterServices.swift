@@ -13,5 +13,6 @@ extension Resolver: ResolverRegistering {
     public static func registerAllServices() {
         Resolver.services.register { HomeService() as HomeServiceType }.scope(.application)
         Resolver.services.register { MovieDetailService() as MovieDetailServiceType }.scope(.application)
+        Resolver.services.register { DataPersistenceService() as DataPersistenceServiceType }.scope(.application)
     }
 }

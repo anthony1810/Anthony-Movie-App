@@ -41,5 +41,9 @@ extension Date {
         return Formatter.dateWithOnlyMonth.string(from: self)
     }
     
+    func toString() -> String {
+        return DateFormatter().string(from: self)
+    }
+    
     
 }

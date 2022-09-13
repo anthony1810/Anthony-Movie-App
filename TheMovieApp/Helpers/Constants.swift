@@ -26,4 +26,9 @@ struct Constants {
         static let movieCell = "MovieCell"
         static let movieDetailCell = "MovieDetailCell"
     }
+    
+    struct UserDefaultKeys {
+        static let lastVisitedDateString = "lastVisitedDateString"
+        static let lastVisitedRoute = "lastVisitedRoute"
+    }
 }

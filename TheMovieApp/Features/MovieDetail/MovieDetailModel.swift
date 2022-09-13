@@ -19,6 +19,9 @@ class MovieDetailViewModel: ViewModel, MovieDetailViewModelType {
     private let router: UnownedRouter<AppRoute>
     private var data = BehaviorRelay<MovieDataType>(value: MovieDataView())
     
+    @LazyInjected(container: .services)
+    private var persistenceService: DataPersistenceServiceType
+    
     // MARK: Initialization
     init(router: UnownedRouter<AppRoute>, movie: MovieDataType) {
         self.router = router
@@ -36,16 +39,27 @@ class MovieDetailViewModel: ViewModel, MovieDetailViewModelType {
             .bind(to: data)
             .disposed(by: rx.disposeBag)
         
+        favoriteAction
+            .elements
+            .filterNil()
+            .bind(to: data)
+            .disposed(by: rx.disposeBag)
+        
         self.output = MovieDetailOutput(favoriteActionTrigger: favoriteAction.inputs, data: data.asDriver())
     }
     
     //MARK: - ACTION
-    private lazy var favoriteAction = Action<Void, Bool> { [unowned self] in
-       
-        return .just(true)
+    private lazy var favoriteAction = Action<Data, MovieDataType?> { [unowned self] artWorkData in
+        guard var movieDataView = data.value as? MovieDataView else { return .just(nil) }
+        var newMovieDataView = movieDataView.copy() as! MovieDataView
+        newMovieDataView.isFavorite = true
+        persistenceService.saveMovie(newMovieDataView, artworkData: artWorkData)
+        return .just(newMovieDataView)
     }
     
     private lazy var requestFavoriteStatus = Action<Void, MovieDataType?> { [unowned self] _ in
-        return .just(nil)
+        guard let id = data.value.id else { return .just(nil) }
+        let result = persistenceService.loadMovie(id: id)
+        return .just(result)
     }
 }

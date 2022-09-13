@@ -35,7 +35,7 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
         case .detail(let movie):
             let movieDetailViewController = R.storyboard.main.movieDetailViewController()!
             movieDetailViewController.bind(to: MovieDetailViewModel(router: unownedRouter, movie: movie))
-            return .showDetail(movieDetailViewController)
+            return .push(movieDetailViewController)
         default: return .popToRoot()
         }
     }

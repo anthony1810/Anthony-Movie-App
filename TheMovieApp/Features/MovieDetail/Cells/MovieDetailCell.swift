@@ -33,7 +33,7 @@ class MovieDetailCell: UITableViewCell {
         rx.clearDisposeBag()
     }
     
-    func bind(to data: MovieDetailCellModel, favoriteButtonTrigger: AnyObserver<Void>?) {
+    func bind(to data: MovieDetailCellModel, favoriteButtonTrigger: AnyObserver<Data>?) {
         rx.disposeBag.insert(
             data.artworkURL.drive(imgArtwork.rx
                 .imageURL(withPlaceholder: UIImage(systemName: "photo"),
@@ -56,8 +56,10 @@ class MovieDetailCell: UITableViewCell {
         
         if let unwrapTrigger = favoriteButtonTrigger {
             btnFavorite.rx.tap
-            .bind(to: unwrapTrigger)
-            .disposed(by: rx.disposeBag)
+                .map { self.imgArtwork.image?.jpegData(compressionQuality: 1.0)}
+                .filterNil()
+                .bind(to: unwrapTrigger)
+                .disposed(by: rx.disposeBag)
         }
     }
     

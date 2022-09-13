@@ -20,11 +20,12 @@ protocol MovieDataType {
     var isFavorite: Bool? { get set }
 }
 
-class MovieDataView: MovieDataType, Equatable {
+class MovieDataView: MovieDataType, Equatable, Codable  {
     
     var id: Int?
     var name: String?
     var artwork: String?
+    var artworkData: Data?
     var price: Double?
     var genre: String?
     var longDesc: String?
@@ -52,6 +53,26 @@ class MovieDataView: MovieDataType, Equatable {
         self.shortDesc = shortDesc
         
         self.isFavorite = false
+    }
+    
+    init(id: Int?,
+         name: String?,
+         artwork: String?,
+         artworkData: Data?,
+         price: Double?,
+         genre: String?,
+         longDesc: String?,
+         shortDesc: String?,
+         isFavorite: Bool?) {
+        self.id = id
+        self.name = name
+        self.artwork = artwork
+        self.artworkData = artworkData
+        self.price = price
+        self.genre = genre
+        self.longDesc = longDesc
+        self.shortDesc = shortDesc
+        self.isFavorite = isFavorite
     }
     
     init() {}
@@ -84,6 +105,13 @@ extension MovieDataType where Self: Equatable {
         guard let other = other as? Self else { return false }
         return self == other
     }
+}
+
+extension MovieDataView: NSCopying {
+    func copy(with zone: NSZone? = nil) -> Any {
+            let copy = MovieDataView(id: id, name: name, artwork: artwork, artworkData: artworkData, price: price, genre: genre, longDesc: longDesc, shortDesc: shortDesc, isFavorite: isFavorite)
+            return copy
+        }
 }
 
 

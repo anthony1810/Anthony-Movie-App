@@ -38,6 +38,7 @@ class MovieDetailViewController: BaseViewController, BindableType {
             }
         }
     }
+    private var delegate: HomeViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +53,8 @@ class MovieDetailViewController: BaseViewController, BindableType {
                 self?.dataInput = [movie]
             })
             .disposed(by: rx.disposeBag)
+        
+        
     }
 
 }

@@ -10,10 +10,12 @@ import RxCocoa
 import DifferenceKit
 
 protocol HomeInputType {
+    var willAppear: Observable<Bool> { get }
     var searchTextDidChange: Observable<String> { get }
 }
 
 struct HomeInput: HomeInputType {
+    var willAppear: Observable<Bool>
     var searchTextDidChange: Observable<String>
 }
 
