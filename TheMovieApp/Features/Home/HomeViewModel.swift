@@ -21,6 +21,7 @@ class HomeViewModel: ViewModel, HomeViewModelType {
     
     // MARK: - Private properties
     private let data = BehaviorRelay<Section>(value: ArraySection(model: "SearchResult", elements:[]))
+    private let lastVisitedDate = BehaviorRelay<String?>(value: nil)
     private let router: UnownedRouter<AppRoute>
     
     @LazyInjected(container: .services)
@@ -36,11 +37,11 @@ class HomeViewModel: ViewModel, HomeViewModelType {
     
     func transform(input: HomeInputType) {
         
-        input.searchTextDidChange
+        Observable.combineLatest(input.searchTextDidChange, input.willAppear)
+            .map { $0.0 }
             .skip(1)
             .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .distinctUntilChanged()
             .flatMapLatest { [unowned self] keyword -> Observable<MovieListModel> in
                 return self.search(term: keyword)
             }
@@ -51,13 +52,14 @@ class HomeViewModel: ViewModel, HomeViewModelType {
             .bind(to: self.data)
             .disposed(by: rx.disposeBag)
         
-        input.willAppear
-            .filter { _ in self.data.value.elements.count > 0 }
-            .map { [unowned self] _ in self.transformToFavorite(from: self.data.value )}
-            .bind(to: self.data )
+        Observable.just(persistenceService.lastVisitedTime())
+            .map { "\(R.string.localizable.homeLastvisit()) \($0 == nil ? "recently" : $0.orStringEmpty)" }
+            .bind(to: lastVisitedDate)
             .disposed(by: rx.disposeBag)
         
-        self.output = HomeOutput(reloadContent: data.asDriver(), itemDetailTrigger: itemDetailAction.inputs)
+        self.output = HomeOutput(reloadContent: data.asDriver(),
+                                 itemDetailTrigger: itemDetailAction.inputs,
+                                 lastVisitedDate: lastVisitedDate.asDriver())
     }
     
     //MARK: - Private functions

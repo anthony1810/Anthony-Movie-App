@@ -46,7 +46,8 @@ class HomeViewController: BaseViewController, BindableType {
 
             collectionView.setCollectionViewLayout(layout, animated: false)
             collectionView.register(R.nib.movieCell)
-
+            collectionView.register(R.nib.homeHeaderView, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
+            
             collectionView.dataSource = self
             collectionView.delegate = self
         }
@@ -55,6 +56,7 @@ class HomeViewController: BaseViewController, BindableType {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "The Movie App"
+        
     }
     
     internal func bindViewModel() {
@@ -115,6 +117,23 @@ extension HomeViewController: UICollectionViewDataSource {
         cell.bind(to: MovieCellModel(with: movieModel))
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        if kind == UICollectionView.elementKindSectionHeader {
+            if let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                          withReuseIdentifier: R.reuseIdentifier.homeHeaderView,
+                                                                          for: indexPath),
+               let viewModelOutput = viewModel.output {
+                view.bind(to: HomeHeaderViewModel(with: viewModelOutput))
+                return view
+            }
+        }
+        
+        return UICollectionReusableView()
+    }
 }
 
 // MARK: - UICollectionViewDelegate & UICollectionViewDelegateFlowLayout
@@ -134,4 +153,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: 40)
+    }
+    
+    
 }

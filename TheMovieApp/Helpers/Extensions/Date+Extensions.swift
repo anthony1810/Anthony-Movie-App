@@ -42,7 +42,10 @@ extension Date {
     }
     
     func toString() -> String {
-        return DateFormatter().string(from: self)
+        let formatter = DateFormatter()
+        formatter.timeStyle = .medium
+        formatter.dateStyle = .medium
+        return formatter.string(from: self)
     }
     
     

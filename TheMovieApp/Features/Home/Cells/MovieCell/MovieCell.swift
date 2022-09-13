@@ -42,7 +42,7 @@ class MovieCell: UICollectionViewCell {
     func bind(to data: MovieCellModelType) {
         rx.disposeBag.insert(
             data.artworkURL.drive(imgArtwork.rx
-                .imageURL(withPlaceholder: UIImage(systemName: "photo"),
+                .imageURL(withPlaceholder: UIImage(named: R.image.artworkthumb.name),
                           options: [.transition(.fade(0.25)),
                                     .cacheMemoryOnly])),
             data.name.drive(lblTitle.rx.text),

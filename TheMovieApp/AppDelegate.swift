@@ -11,6 +11,7 @@ import Resolver
 import XCoordinator
 import Action
 import DifferenceKit
+import RxAppState
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @LazyInjected(container: .services)
     private var apiService: HomeServiceType
+    
+    @LazyInjected(container: .services)
+    private var persistenceService: DataPersistenceServiceType
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         LibsManager.shared.setupLibs(application, didFinishLaunchingWithOptions: launchOptions)
@@ -30,6 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         appCoordinator.strongRouter.setRoot(for: mainWindow)
 
         return true
+    }
+    
+    func applicationWillResignActive(_ application: UIApplication) {
+        persistenceService.saveLastVisitedTime()
     }
 
 }

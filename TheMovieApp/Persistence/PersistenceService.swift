@@ -54,7 +54,8 @@ class DataPersistenceService: DataPersistenceServiceType {
     
     //MARK: - Last Visited Time Data
     func saveLastVisitedTime() {
-        UserDefaults.standard.set(Date().toString(), forKey: Constants.UserDefaultKeys.lastVisitedDateString)
+        let value = Date().toString()
+        UserDefaults.standard.set(value, forKey: Constants.UserDefaultKeys.lastVisitedDateString)
     }
     
     func lastVisitedTime() -> String? {
