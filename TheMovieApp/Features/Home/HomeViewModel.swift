@@ -43,12 +43,6 @@ class HomeViewModel: ViewModel, HomeViewModelType {
             .bind(to: deeplinkTrigger.inputs)
             .disposed(by: rx.disposeBag)
         
-        deeplinkTrigger.elements
-            .subscribe(onNext: { [unowned self] in
-                self.persistenceService.saveLastVisitedRoute(AppRoute.home)
-            })
-            .disposed(by: rx.disposeBag)
-        
         Observable.combineLatest(input.searchTextDidChange, input.willAppear)
             .map { $0.0 }
             .skip(1)
@@ -101,7 +95,8 @@ class HomeViewModel: ViewModel, HomeViewModelType {
     
     private lazy var deeplinkTrigger = CocoaAction { [unowned self] in
         guard let lastVisitRoute = self.persistenceService.loadLastVisitedRoute() else { return Observable.just(())}
-        return self.router.rx.trigger(lastVisitRoute)
+        self.persistenceService.saveLastVisitedRoute(AppRoute.home)
+        return self.router.rx.trigger(.deeplink(route: lastVisitRoute))
     }
 }
 
