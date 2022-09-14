@@ -45,6 +45,7 @@ class ArchiveViewModel: ViewModel, ArchiveViewModelType {
             .bind(to: self.data)
             .disposed(by: rx.disposeBag)
         
+        self.persistenceService.saveLastVisitedRoute(AppRoute.archive)
         self.output = ArchiveOutput(reloadContent: data.asDriver(), itemDetailTrigger: itemDetailAction.inputs)
     }
     

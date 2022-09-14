@@ -10,10 +10,11 @@ import XCoordinator
 import Resolver
 import RxSwift
 
-enum AppRoute: Route {
+indirect enum AppRoute: Route {
     case home
     case detail(movie: MovieDataType)
     case archive
+    case deeplink(route: AppRoute)
     case backToRoot
 }
 
@@ -41,7 +42,19 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
             let archiveVC = R.storyboard.main.archiveViewController()!
             archiveVC.bind(to: ArchiveViewModel(router: unownedRouter))
             return .push(archiveVC)
-        default: return .popToRoot()
+        case .deeplink(let route):
+            switch route {
+            case .home:
+                return .popToRoot()
+            case .archive:
+                return deepLink(AppRoute.backToRoot, AppRoute.archive)
+            case .detail(let movie):
+                return deepLink(AppRoute.backToRoot, AppRoute.detail(movie: movie))
+            case .backToRoot:
+                return .popToRoot()
+            default: return .popToRoot()
+            }
+        case .backToRoot: return .popToRoot()
         }
     }
     

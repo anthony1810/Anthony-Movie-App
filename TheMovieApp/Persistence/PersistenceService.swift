@@ -11,7 +11,7 @@ import Resolver
 import XCoordinator
 
 protocol DataPersistenceServiceType {
-    func saveMovie(_ movie: MovieDataView, artworkData: Data)
+    func saveMovie(_ movie: MovieDataView)
     func loadMovie(id: Int) -> MovieDataView?
     func loadMovies() -> [MovieDataView]
     
@@ -25,12 +25,10 @@ protocol DataPersistenceServiceType {
 class DataPersistenceService: DataPersistenceServiceType {
     
     //MARK: - Movie Data
-    func saveMovie(_ movie: MovieDataView, artworkData: Data) {
+    func saveMovie(_ movie: MovieDataView) {
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { fatalError("Can't find path data") }
         do {
-            let newMovie = movie
-            newMovie.artworkData = artworkData
-            let encodedData = try JSONEncoder().encode(newMovie)
+            let encodedData = try JSONEncoder().encode(movie)
             let url = path.appendingPathComponent("\(movie.id.orZero)")
             try encodedData.write(to: url, options: .atomicWrite)
         } catch {
@@ -91,29 +89,47 @@ class DataPersistenceService: DataPersistenceServiceType {
     
     //MARK:- Last Visited Route
     func saveLastVisitedRoute(_ route: AppRoute) {
-        switch route {
-        case .home:
-            UserDefaults.standard.set(RouteModel(name: "home"), forKey: Constants.UserDefaultKeys.lastVisitedRoute)
-        case .detail(let movie):
-            guard let movie = movie as? MovieDataView else { return }
-            UserDefaults.standard.set(RouteModel(name: "detail", movie: movie), forKey: Constants.UserDefaultKeys.lastVisitedRoute)
-        default: break
+        var lastVisitRouteData = Data()
+        do {
+            switch route {
+            case .home:
+                lastVisitRouteData = try JSONEncoder().encode(RouteModel(name: "home"))
+            case .detail(let movie):
+                guard let movie = movie as? MovieDataView else { return }
+                lastVisitRouteData = try JSONEncoder().encode(RouteModel(name: "detail", movie: movie))
+            case .archive:
+                lastVisitRouteData = try JSONEncoder().encode(RouteModel(name: "archive"))
+            default: break
+            }
+        } catch {
+            print("can't encode last visit route: \(error)")
         }
+        UserDefaults.standard.set(lastVisitRouteData, forKey: Constants.UserDefaultKeys.lastVisitedRoute)
     }
     
     func loadLastVisitedRoute() -> AppRoute? {
-        guard let result = UserDefaults.standard.value(forKey: Constants.UserDefaultKeys.lastVisitedRoute) as? RouteModel else {
+        guard let lastRouteData = UserDefaults.standard.value(forKey: Constants.UserDefaultKeys.lastVisitedRoute) as? Data else {
             return nil
         }
         
-        switch result.name {
-        case "home":
-            return AppRoute.home
-        case "detail":
-            guard let movie = result.movie else { return nil }
-            return AppRoute.detail(movie: movie)
-        default: return nil
+        do {
+            let result = try JSONDecoder().decode(RouteModel.self, from: lastRouteData)
+            
+            switch result.name {
+            case "home":
+                return AppRoute.home
+            case "detail":
+                guard let movie = result.movie else { return nil }
+                return AppRoute.detail(movie: movie)
+            case "archive":
+                return AppRoute.archive
+            default: return nil
+            }
+        } catch {
+            print("can't decode last route data: \(error)")
         }
+        
+        return nil
     }
     
 }

@@ -37,6 +37,17 @@ class HomeViewModel: ViewModel, HomeViewModelType {
     }
     
     func transform(input: HomeInputType) {
+    
+        Observable.just(())
+            .delay(.milliseconds(500), scheduler: MainScheduler.instance)
+            .bind(to: deeplinkTrigger.inputs)
+            .disposed(by: rx.disposeBag)
+        
+        deeplinkTrigger.elements
+            .subscribe(onNext: { [unowned self] in
+                self.persistenceService.saveLastVisitedRoute(AppRoute.home)
+            })
+            .disposed(by: rx.disposeBag)
         
         Observable.combineLatest(input.searchTextDidChange, input.willAppear)
             .map { $0.0 }
@@ -86,6 +97,11 @@ class HomeViewModel: ViewModel, HomeViewModelType {
     
     private lazy var archiveButtonAction = CocoaAction { [unowned self] item in
         return self.router.rx.trigger(.archive)
+    }
+    
+    private lazy var deeplinkTrigger = CocoaAction { [unowned self] in
+        guard let lastVisitRoute = self.persistenceService.loadLastVisitedRoute() else { return Observable.just(())}
+        return self.router.rx.trigger(lastVisitRoute)
     }
 }
 

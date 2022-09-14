@@ -30,7 +30,9 @@ class MovieDetailViewModel: ViewModel, MovieDetailViewModelType {
     
     // MARK: Transform
     func transform(input: MovieDetailInputType) {
-        Observable.merge(input.willAppear.mapToVoid())
+        
+        input.willAppear
+            .mapToVoid()
             .bind(to: requestFavoriteStatus.inputs)
             .disposed(by: rx.disposeBag)
         
@@ -45,6 +47,15 @@ class MovieDetailViewModel: ViewModel, MovieDetailViewModelType {
             .bind(to: data)
             .disposed(by: rx.disposeBag)
         
+        requestFavoriteStatus.elements
+            .map { [weak self] _ -> MovieDataType? in
+                guard let `self` = self else { return nil }
+                return self.data.value
+            }
+            .filterNil()
+            .bind(to: updateLastVisitRoute.inputs)
+            .disposed(by: rx.disposeBag)
+        
         self.output = MovieDetailOutput(favoriteActionTrigger: favoriteAction.inputs, data: data.asDriver())
     }
     
@@ -52,8 +63,12 @@ class MovieDetailViewModel: ViewModel, MovieDetailViewModelType {
     private lazy var favoriteAction = Action<Data, MovieDataType?> { [unowned self] artWorkData in
         guard var movieDataView = data.value as? MovieDataView else { return .just(nil) }
         var newMovieDataView = movieDataView.copy() as! MovieDataView
+        
         newMovieDataView.isFavorite = true
-        persistenceService.saveMovie(newMovieDataView, artworkData: artWorkData)
+        newMovieDataView.artworkData = artWorkData
+        
+        self.data.accept(newMovieDataView)
+        persistenceService.saveMovie(newMovieDataView)
         return .just(newMovieDataView)
     }
     
@@ -61,5 +76,9 @@ class MovieDetailViewModel: ViewModel, MovieDetailViewModelType {
         guard let id = data.value.id else { return .just(nil) }
         let result = persistenceService.loadMovie(id: id)
         return .just(result)
+    }
+    
+    private lazy var updateLastVisitRoute = Action<MovieDataType, Void> {[unowned self] movie in
+        return .just(self.persistenceService.saveLastVisitedRoute(AppRoute.detail(movie: movie)))
     }
 }
