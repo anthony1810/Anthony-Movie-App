@@ -13,6 +13,7 @@ import XCoordinator
 protocol DataPersistenceServiceType {
     func saveMovie(_ movie: MovieDataView, artworkData: Data)
     func loadMovie(id: Int) -> MovieDataView?
+    func loadMovies() -> [MovieDataView]
     
     func saveLastVisitedTime()
     func lastVisitedTime() -> String?
@@ -24,11 +25,11 @@ protocol DataPersistenceServiceType {
 class DataPersistenceService: DataPersistenceServiceType {
     
     //MARK: - Movie Data
-     func saveMovie(_ movie: MovieDataView, artworkData: Data) {
+    func saveMovie(_ movie: MovieDataView, artworkData: Data) {
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { fatalError("Can't find path data") }
         do {
             let newMovie = movie
-//            newMovie.artworkData = artworkData
+            newMovie.artworkData = artworkData
             let encodedData = try JSONEncoder().encode(newMovie)
             let url = path.appendingPathComponent("\(movie.id.orZero)")
             try encodedData.write(to: url, options: .atomicWrite)
@@ -38,7 +39,7 @@ class DataPersistenceService: DataPersistenceServiceType {
         
     }
     
-     func loadMovie(id: Int) -> MovieDataView? {
+    func loadMovie(id: Int) -> MovieDataView? {
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { fatalError("Can't find path data") }
         do {
             let url = path.appendingPathComponent("\(id)")
@@ -49,6 +50,32 @@ class DataPersistenceService: DataPersistenceServiceType {
         } catch {
             print(error.localizedDescription)
             return nil
+        }
+    }
+    
+    
+    func loadMovies() -> [MovieDataView] {
+        do {
+            // Get the document directory url
+            let documentDirectory = try FileManager.default.url(
+                for: .documentDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: true
+            )
+            
+            // Get the directory contents urls (including subfolders urls)
+            let directoryContents = try FileManager.default.contentsOfDirectory(
+                at: documentDirectory,
+                includingPropertiesForKeys: nil
+            )
+            let movies = try directoryContents.map { try Data(contentsOf: $0)}.map { try JSONDecoder().decode(MovieDataView.self, from: $0)}
+           
+            return movies
+            
+        } catch {
+            print(error)
+            return []
         }
     }
     

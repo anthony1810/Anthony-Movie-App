@@ -25,6 +25,9 @@
 		2F7AAB1228CF04B200AE97ED /* MovieDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F7AAB1028CF04B200AE97ED /* MovieDetailCell.xib */; };
 		2F7AAB1428CF176200AE97ED /* MovieDetailCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7AAB1328CF176200AE97ED /* MovieDetailCellModel.swift */; };
 		2F7AAB1728CF63FE00AE97ED /* PersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7AAB1628CF63FE00AE97ED /* PersistenceService.swift */; };
+		2F8E0C5528D180AA0031DCD9 /* ArchiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8E0C5428D180AA0031DCD9 /* ArchiveViewModel.swift */; };
+		2F8E0C5728D180BA0031DCD9 /* ArchiveViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8E0C5628D180BA0031DCD9 /* ArchiveViewModelType.swift */; };
+		2F8E0C5A28D181190031DCD9 /* ArchiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8E0C5928D181190031DCD9 /* ArchiveViewController.swift */; };
 		2F9ED9B428D0D6520028EFD2 /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9ED9B228D0D6520028EFD2 /* HomeHeaderView.swift */; };
 		2F9ED9B528D0D6520028EFD2 /* HomeHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F9ED9B328D0D6520028EFD2 /* HomeHeaderView.xib */; };
 		2F9ED9B928D0DB8B0028EFD2 /* HomeHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9ED9B828D0DB8B0028EFD2 /* HomeHeaderViewModel.swift */; };
@@ -99,6 +102,9 @@
 		2F7AAB1028CF04B200AE97ED /* MovieDetailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieDetailCell.xib; sourceTree = "<group>"; };
 		2F7AAB1328CF176200AE97ED /* MovieDetailCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailCellModel.swift; sourceTree = "<group>"; };
 		2F7AAB1628CF63FE00AE97ED /* PersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceService.swift; sourceTree = "<group>"; };
+		2F8E0C5428D180AA0031DCD9 /* ArchiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewModel.swift; sourceTree = "<group>"; };
+		2F8E0C5628D180BA0031DCD9 /* ArchiveViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewModelType.swift; sourceTree = "<group>"; };
+		2F8E0C5928D181190031DCD9 /* ArchiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewController.swift; sourceTree = "<group>"; };
 		2F9ED9B228D0D6520028EFD2 /* HomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
 		2F9ED9B328D0D6520028EFD2 /* HomeHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeHeaderView.xib; sourceTree = "<group>"; };
 		2F9ED9B828D0DB8B0028EFD2 /* HomeHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderViewModel.swift; sourceTree = "<group>"; };
@@ -290,6 +296,16 @@
 			path = Persistence;
 			sourceTree = "<group>";
 		};
+		2F8E0C5828D180CF0031DCD9 /* Archive */ = {
+			isa = PBXGroup;
+			children = (
+				2F8E0C5428D180AA0031DCD9 /* ArchiveViewModel.swift */,
+				2F8E0C5628D180BA0031DCD9 /* ArchiveViewModelType.swift */,
+				2F8E0C5928D181190031DCD9 /* ArchiveViewController.swift */,
+			);
+			path = Archive;
+			sourceTree = "<group>";
+		};
 		2F9ED9B628D0D65A0028EFD2 /* MovieCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -327,6 +343,7 @@
 				2FBDE16B28CB3A7100CC668F /* Main.storyboard */,
 				2FBDE16D28CB3AFD00CC668F /* Home */,
 				2F0CBFCF28CE365D00AFE6D3 /* MovieDetail */,
+				2F8E0C5828D180CF0031DCD9 /* Archive */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -385,12 +402,12 @@
 		2FEDD7C828CA39AB0015C0CA /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				2FEDD7CE28CA39AB0015C0CA /* Reactive */,
 				2FEDD7C928CA39AB0015C0CA /* Array+Extensions.swift */,
 				2FEDD7CA28CA39AB0015C0CA /* UIViewController+Extensions.swift */,
 				2FEDD7CB28CA39AB0015C0CA /* UIView+Extensions.swift */,
 				2FEDD7CC28CA39AB0015C0CA /* String+Extensions.swift */,
 				2FEDD7CD28CA39AB0015C0CA /* UIColor+Extensions.swift */,
-				2FEDD7CE28CA39AB0015C0CA /* Reactive */,
 				2FEDD7D228CA39AB0015C0CA /* Formatter+Extensions.swift */,
 				2FEDD7D328CA39AB0015C0CA /* UINavigationController+Extensions.swift */,
 				2FEDD7D428CA39AB0015C0CA /* NSObject+Extensions.swift */,
@@ -660,6 +677,7 @@
 				2FEDD7F628CA39F20015C0CA /* Constants.swift in Sources */,
 				2FEDD7E428CA39AB0015C0CA /* UINavigationController+Extensions.swift in Sources */,
 				2F9ED9B428D0D6520028EFD2 /* HomeHeaderView.swift in Sources */,
+				2F8E0C5728D180BA0031DCD9 /* ArchiveViewModelType.swift in Sources */,
 				2FEDD7E128CA39AB0015C0CA /* Observable+Operators.swift in Sources */,
 				2F0CBFD528CE36C400AFE6D3 /* MovieDetailViewController.swift in Sources */,
 				2FBDE16F28CB3B2500CC668F /* HomeViewModel.swift in Sources */,
@@ -674,6 +692,7 @@
 				2FEDD82B28CA43000015C0CA /* LibsManager.swift in Sources */,
 				2FEDD83C28CA44940015C0CA /* MovieDetailAPI.swift in Sources */,
 				2FEDD83528CA445F0015C0CA /* Resolver+RegisterServices.swift in Sources */,
+				2F8E0C5528D180AA0031DCD9 /* ArchiveViewModel.swift in Sources */,
 				2FEDD80328CA3A0F0015C0CA /* Response+ObjectMapper.swift in Sources */,
 				2F0CBFCB28CC96DB00AFE6D3 /* MovieCell.swift in Sources */,
 				2F7AAB1428CF176200AE97ED /* MovieDetailCellModel.swift in Sources */,
@@ -684,6 +703,7 @@
 				2FEDD80228CA3A0F0015C0CA /* Single+ObjectMapper.swift in Sources */,
 				2F0FE45C28D07EF600C848D9 /* RouteModel.swift in Sources */,
 				2F0CBFC328CC403700AFE6D3 /* MovieListDataView.swift in Sources */,
+				2F8E0C5A28D181190031DCD9 /* ArchiveViewController.swift in Sources */,
 				2F0CBFB928CC3B4900AFE6D3 /* MovieListModel.swift in Sources */,
 				2F0CBFD128CE369400AFE6D3 /* MovieDetailModelType.swift in Sources */,
 				2F9ED9B928D0DB8B0028EFD2 /* HomeHeaderViewModel.swift in Sources */,

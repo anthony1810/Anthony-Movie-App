@@ -13,6 +13,7 @@ import RxSwift
 enum AppRoute: Route {
     case home
     case detail(movie: MovieDataType)
+    case archive
     case backToRoot
 }
 
@@ -36,6 +37,10 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
             let movieDetailViewController = R.storyboard.main.movieDetailViewController()!
             movieDetailViewController.bind(to: MovieDetailViewModel(router: unownedRouter, movie: movie))
             return .push(movieDetailViewController)
+        case .archive:
+            let archiveVC = R.storyboard.main.archiveViewController()!
+            archiveVC.bind(to: ArchiveViewModel(router: unownedRouter))
+            return .push(archiveVC)
         default: return .popToRoot()
         }
     }

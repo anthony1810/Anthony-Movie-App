@@ -24,6 +24,7 @@ protocol HomeOutputType {
     typealias Section = ArraySection<String, MovieDataView>
     var reloadContent: Driver<Section> { get }
     var itemDetailTrigger: AnyObserver<MovieDataView> { get }
+    var archiveButtonTrigger: AnyObserver<Void> { get }
     var lastVisitedDate: Driver<String?> { get }
 }
 
@@ -32,6 +33,7 @@ struct HomeOutput: HomeOutputType {
     typealias Section = ArraySection<String, MovieDataView>
     var reloadContent: Driver<Section>
     var itemDetailTrigger: AnyObserver<MovieDataView>
+    var archiveButtonTrigger: AnyObserver<Void>
     var lastVisitedDate: Driver<String?>
 }
 

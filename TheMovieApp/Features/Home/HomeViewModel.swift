@@ -19,13 +19,14 @@ class HomeViewModel: ViewModel, HomeViewModelType {
     @LazyInjected(container: .services)
     private var apiService: HomeServiceType
     
+    @LazyInjected(container: .services)
+    private var persistenceService: DataPersistenceServiceType
+    
     // MARK: - Private properties
     private let data = BehaviorRelay<Section>(value: ArraySection(model: "SearchResult", elements:[]))
     private let lastVisitedDate = BehaviorRelay<String?>(value: nil)
     private let router: UnownedRouter<AppRoute>
     
-    @LazyInjected(container: .services)
-    private var persistenceService: DataPersistenceServiceType
     
     // MARK: - Pulic properties
     var output: HomeOutputType?
@@ -59,7 +60,9 @@ class HomeViewModel: ViewModel, HomeViewModelType {
         
         self.output = HomeOutput(reloadContent: data.asDriver(),
                                  itemDetailTrigger: itemDetailAction.inputs,
+                                 archiveButtonTrigger: archiveButtonAction.inputs,
                                  lastVisitedDate: lastVisitedDate.asDriver())
+        
     }
     
     //MARK: - Private functions
@@ -79,6 +82,10 @@ class HomeViewModel: ViewModel, HomeViewModelType {
     
     private lazy var itemDetailAction = Action<MovieDataView, Void> { [unowned self] item in
         return self.router.rx.trigger(.detail(movie: item))
+    }
+    
+    private lazy var archiveButtonAction = CocoaAction { [unowned self] item in
+        return self.router.rx.trigger(.archive)
     }
 }
 

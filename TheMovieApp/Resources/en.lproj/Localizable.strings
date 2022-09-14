@@ -14,4 +14,11 @@
 "movie.detail.removeFromFavorite" = "Remove From Favorite";
 
 //Home Screen
+"home.title" = "The Movie App";
 "home.lastvisit" = "Last visit was";
+"home.notice.nomatch" = "There are no movie matches with that name";
+"home.notice.searchnow" = "Search your favorite movie now!";
+
+//Archive View
+"archive.title" = "Archive Movie List";
+"archive.notice.yourfavorite" = "Your favorite movies stay here!";

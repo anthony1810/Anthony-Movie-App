@@ -1,8 +1,8 @@
 //
-//  ViewController.swift
+//  ArchiveViewController.swift
 //  TheMovieApp
 //
-//  Created by Anthony Tran on 08/09/2022.
+//  Created by Anthony Tran on 14/09/2022.
 //
 
 import UIKit
@@ -14,24 +14,9 @@ import Action
 import Resolver
 import RxAppState
 
-class HomeViewController: BaseViewController, BindableType {
-
-    internal var viewModel: HomeViewModelType!
-    internal var data = [HomeViewModel.Section]()
-    private var dataInput: [HomeViewModel.Section] {
-        get { return data }
-        set {
-            let changeset = StagedChangeset(source: data, target: newValue)
-            collectionView.reload(using: changeset) { data in self.data = data }
-            collectionView.reloadEmptyDataSet()
-        }
-    }
-    
+class ArchiveViewController: BaseViewController, BindableType {
 
     @IBOutlet weak var lblNotice: UILabel!
-    @IBOutlet weak var btnArchive: UIBarButtonItem!
-    
-    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             let layout = UICollectionViewFlowLayout()
@@ -41,45 +26,56 @@ class HomeViewController: BaseViewController, BindableType {
 
             collectionView.setCollectionViewLayout(layout, animated: false)
             collectionView.register(R.nib.movieCell)
-            collectionView.register(R.nib.homeHeaderView, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader)
             
             collectionView.dataSource = self
             collectionView.delegate = self
         }
     }
     
+    internal var viewModel: ArchiveViewModelType!
+    internal var data = [ArchiveViewModel.Section]()
+    private var dataInput: [ArchiveViewModel.Section] {
+        get { return data }
+        set {
+            let changeset = StagedChangeset(source: data, target: newValue)
+            collectionView.reload(using: changeset) { data in self.data = data }
+            collectionView.reloadEmptyDataSet()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = R.string.localizable.homeTitle()
-        
+
+        self.title = R.string.localizable.archiveTitle()
     }
     
     internal func bindViewModel() {
-        let input = HomeInput(willAppear: rx.viewWillAppear, searchTextDidChange: self.searchBar.rx.text.orEmpty.asObservable())
+        let input = ArchiveInput(willAppear: rx.viewWillAppear)
         viewModel.transform(input: input)
         
+        //control view data
         viewModel.output?.reloadContent.drive(onNext: { [unowned self] section in
             self.dataInput = [section]
         })
         .disposed(by: rx.disposeBag)
         
+        //Control Notice Label
         viewModel.output?.reloadContent
             .map { $0.elements.count > 0 ? true : false }
             .drive(lblNotice.rx.isHidden)
             .disposed(by: rx.disposeBag)
         
         viewModel.output?.reloadContent.drive(onNext: { [unowned self] section in
-            guard let searchText = searchBar.text else { return }
-            switch (section.elements.count, searchText.count) {
-            case (0, 1...Int.max):
-                lblNotice.text = R.string.localizable.homeNoticeNomatch()
+            switch (section.elements.count) {
+            case (1...Int.max):
+                lblNotice.text = ""
             default:
-                lblNotice.text = R.string.localizable.homeNoticeSearchnow()
+                lblNotice.text = R.string.localizable.archiveNoticeYourfavorite()
             }
         })
         .disposed(by: rx.disposeBag)
-            
         
+        //show movie detail here
         if let unwrapTrigger = viewModel.output?.itemDetailTrigger {
             collectionView.rx.itemSelected
                 .map { [unowned self] index -> MovieDataView in
@@ -89,18 +85,12 @@ class HomeViewController: BaseViewController, BindableType {
             .disposed(by: rx.disposeBag)
         }
         
-        if let unwrapTrigger = viewModel.output?.archiveButtonTrigger {
-            btnArchive.rx.tap
-                .bind(to: unwrapTrigger)
-                .disposed(by: rx.disposeBag)
-        }
-        
         viewModel.error.drive(self.error).disposed(by: rx.disposeBag)
     }
+
 }
 
-
-extension HomeViewController: UICollectionViewDataSource {
+extension ArchiveViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return data.count
     }
@@ -119,26 +109,10 @@ extension HomeViewController: UICollectionViewDataSource {
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind kind: String,
-                        at indexPath: IndexPath) -> UICollectionReusableView {
-        
-        if kind == UICollectionView.elementKindSectionHeader {
-            if let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                          withReuseIdentifier: R.reuseIdentifier.homeHeaderView,
-                                                                          for: indexPath),
-               let viewModelOutput = viewModel.output {
-                view.bind(to: HomeHeaderViewModel(with: viewModelOutput))
-                return view
-            }
-        }
-        
-        return UICollectionReusableView()
-    }
 }
 
 // MARK: - UICollectionViewDelegate & UICollectionViewDelegateFlowLayout
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension ArchiveViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -155,11 +129,5 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDelegate
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: 40)
-    }
-    
-    
 }
+
