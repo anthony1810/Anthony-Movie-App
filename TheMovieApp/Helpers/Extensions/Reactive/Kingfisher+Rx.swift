@@ -24,5 +24,13 @@ extension Reactive where Base: UIImageView {
                                   progressBlock: nil) { (result) in }
         })
     }
+    
+    public var imageData: Binder<Data?> {
+        return Binder(self.base) { imageView, data in
+            if let data = data {
+                imageView.image = UIImage(data: data)
+            }
+        }
+    }
 }
 

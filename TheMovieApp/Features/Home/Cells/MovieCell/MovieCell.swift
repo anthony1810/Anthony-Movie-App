@@ -45,6 +45,7 @@ class MovieCell: UICollectionViewCell {
                 .imageURL(withPlaceholder: UIImage(named: R.image.artworkthumb.name),
                           options: [.transition(.fade(0.25)),
                                     .cacheMemoryOnly])),
+            data.artworData.drive(imgArtwork.rx.imageData),
             data.name.drive(lblTitle.rx.text),
             data.desc.drive(lblDesc.rx.text),
             data.price.drive(lblPrice.rx.text),

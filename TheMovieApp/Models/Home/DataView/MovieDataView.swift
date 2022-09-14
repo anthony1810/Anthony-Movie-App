@@ -12,6 +12,7 @@ protocol MovieDataType {
     var id: Int? { get }
     var name: String? { get }
     var artwork: String? { get }
+    var artworkData: Data? { get }
     var price: Double? { get }
     var genre: String? { get }
     var longDesc: String? { get }

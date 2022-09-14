@@ -16,7 +16,7 @@ import RxAppState
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var mainWindow: UIWindow = UIWindow()
+    lazy var mainWindow: UIWindow = UIWindow()
     private var appCoordinator = AppCoordinator()
     
     @LazyInjected(container: .services)

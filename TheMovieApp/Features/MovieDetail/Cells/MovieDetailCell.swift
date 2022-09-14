@@ -39,6 +39,7 @@ class MovieDetailCell: UITableViewCell {
                 .imageURL(withPlaceholder: UIImage(named: R.image.artworkthumb.name),
                           options: [.transition(.fade(0.25)),
                                     .cacheMemoryOnly])),
+            data.artworkData.drive(imgArtwork.rx.imageData),
             data.name.drive(lblTitle.rx.text),
             data.longDesc.drive(lblLongDesc.rx.text),
             data.price.drive(lblPrice.rx.text),
