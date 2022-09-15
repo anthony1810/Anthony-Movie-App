@@ -9,6 +9,7 @@ import RxSwift
 import RxCocoa
 import DifferenceKit
 
+//MARK: - Input
 protocol HomeInputType {
     var willAppear: Observable<Bool> { get }
     var searchTextDidChange: Observable<String> { get }

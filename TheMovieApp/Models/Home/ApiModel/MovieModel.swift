@@ -8,6 +8,7 @@
 import Foundation
 import ObjectMapper
 
+/// Original representation  of movie item from Itune Search API
 struct MovieModel: Mappable {
     var trackId: Int?
     var trackName: String?

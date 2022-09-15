@@ -17,6 +17,7 @@ class ArchiveViewModel: ViewModel, ArchiveViewModelType {
     
     typealias Section = ArchiveOutputType.Section
     
+    //MARK: - Service
     @LazyInjected(container: .services)
     private var persistenceService: DataPersistenceServiceType
     
@@ -32,6 +33,7 @@ class ArchiveViewModel: ViewModel, ArchiveViewModelType {
         self.router = router
     }
     
+    // MARK: - Transform
     func transform(input: ArchiveInputType) {
         input.willAppear
             .map { [weak self] _ -> [MovieDataView] in

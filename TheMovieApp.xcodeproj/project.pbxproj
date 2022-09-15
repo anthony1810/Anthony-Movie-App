@@ -281,9 +281,9 @@
 		2F7AAB0E28CF047F00AE97ED /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				2F7AAB1328CF176200AE97ED /* MovieDetailCellModel.swift */,
 				2F7AAB0F28CF04B200AE97ED /* MovieDetailCell.swift */,
 				2F7AAB1028CF04B200AE97ED /* MovieDetailCell.xib */,
-				2F7AAB1328CF176200AE97ED /* MovieDetailCellModel.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -299,9 +299,9 @@
 		2F8E0C5828D180CF0031DCD9 /* Archive */ = {
 			isa = PBXGroup;
 			children = (
-				2F8E0C5428D180AA0031DCD9 /* ArchiveViewModel.swift */,
-				2F8E0C5628D180BA0031DCD9 /* ArchiveViewModelType.swift */,
 				2F8E0C5928D181190031DCD9 /* ArchiveViewController.swift */,
+				2F8E0C5628D180BA0031DCD9 /* ArchiveViewModelType.swift */,
+				2F8E0C5428D180AA0031DCD9 /* ArchiveViewModel.swift */,
 			);
 			path = Archive;
 			sourceTree = "<group>";
@@ -331,8 +331,8 @@
 			children = (
 				2F0CBFC828CC961400AFE6D3 /* Cells */,
 				2F207CCB28CA30DB00D74C04 /* HomeViewController.swift */,
-				2FBDE16E28CB3B2500CC668F /* HomeViewModel.swift */,
 				2FBDE17028CB3B3000CC668F /* HomeViewModelType.swift */,
+				2FBDE16E28CB3B2500CC668F /* HomeViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";

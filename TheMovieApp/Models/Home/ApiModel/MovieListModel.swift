@@ -8,6 +8,8 @@
 import Foundation
 import ObjectMapper
 
+
+/// Origin Representation of result from Itune Search API
 struct MovieListModel: Mappable {
     var resultCount: Int?
     var results: [MovieModel]?

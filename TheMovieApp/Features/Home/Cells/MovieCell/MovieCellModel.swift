@@ -9,6 +9,7 @@ import Foundation
 import RxCocoa
 import RxSwift
 
+/// A model control business logic of Movie Cell
 protocol MovieCellModelType {
     var id: Int? { get set }
     var artworkURL: Driver<URL?> { get set }

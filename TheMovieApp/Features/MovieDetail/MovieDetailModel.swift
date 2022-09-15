@@ -15,10 +15,14 @@ import ObjectMapper
 
 class MovieDetailViewModel: ViewModel, MovieDetailViewModelType {
     
+    // MARK: - Public properties
     var output: MovieDetailOutputType?
+    
+    // MARK: - Private properties
     private let router: UnownedRouter<AppRoute>
     private var data = BehaviorRelay<MovieDataType>(value: MovieDataView())
     
+    // MARK: - Services
     @LazyInjected(container: .services)
     private var persistenceService: DataPersistenceServiceType
     
@@ -28,7 +32,7 @@ class MovieDetailViewModel: ViewModel, MovieDetailViewModelType {
         self.data.accept(movie)
     }
     
-    // MARK: Transform
+    // MARK: - Transform
     func transform(input: MovieDetailInputType) {
         
         input.willAppear

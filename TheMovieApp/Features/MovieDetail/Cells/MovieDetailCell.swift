@@ -10,7 +10,7 @@ import RxSwift
 
 class MovieDetailCell: UITableViewCell {
     
-    
+    //MARK: - Outlets
     @IBOutlet weak var btnFavorite: UIButton!
     @IBOutlet weak var imgArtwork: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!
@@ -18,7 +18,7 @@ class MovieDetailCell: UITableViewCell {
     @IBOutlet weak var lblGenre: UILabel!
     @IBOutlet weak var lblLongDesc: UILabel!
     
-
+    //MARK: - Cell Life Cycles
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -33,6 +33,10 @@ class MovieDetailCell: UITableViewCell {
         rx.clearDisposeBag()
     }
     
+    /// Binding Data to Cell
+    /// - Parameters:
+    ///   - data: Model which hold business logic of this cell
+    ///   - favoriteButtonTrigger: action binding to favorite button
     func bind(to data: MovieDetailCellModel, favoriteButtonTrigger: AnyObserver<Data>?) {
         rx.disposeBag.insert(
             data.artworkURL.drive(imgArtwork.rx

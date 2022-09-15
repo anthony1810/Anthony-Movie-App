@@ -15,7 +15,22 @@ import Resolver
 import RxAppState
 
 class ArchiveViewController: BaseViewController, BindableType {
+    
+    /// Model which hold business logic of this view
+    internal var viewModel: ArchiveViewModelType!
+    
+    /// Data driven in this view
+    internal var data = [ArchiveViewModel.Section]()
+    private var dataInput: [ArchiveViewModel.Section] {
+        get { return data }
+        set {
+            let changeset = StagedChangeset(source: data, target: newValue)
+            collectionView.reload(using: changeset) { data in self.data = data }
+            collectionView.reloadEmptyDataSet()
+        }
+    }
 
+    // MARK: - Outlets
     @IBOutlet weak var lblNotice: UILabel!
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
@@ -32,23 +47,14 @@ class ArchiveViewController: BaseViewController, BindableType {
         }
     }
     
-    internal var viewModel: ArchiveViewModelType!
-    internal var data = [ArchiveViewModel.Section]()
-    private var dataInput: [ArchiveViewModel.Section] {
-        get { return data }
-        set {
-            let changeset = StagedChangeset(source: data, target: newValue)
-            collectionView.reload(using: changeset) { data in self.data = data }
-            collectionView.reloadEmptyDataSet()
-        }
-    }
-    
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.title = R.string.localizable.archiveTitle()
     }
     
+    //MARK: - Transform
     internal func bindViewModel() {
         let input = ArchiveInput(willAppear: rx.viewWillAppear, willDisappear: rx.viewWillDisappear)
         viewModel.transform(input: input)

@@ -15,8 +15,11 @@ import Resolver
 import RxAppState
 
 class HomeViewController: BaseViewController, BindableType {
-
+    
+    /// Model control business logic of HomeViewController
     internal var viewModel: HomeViewModelType!
+    
+    /// Data driven in this view
     internal var data = [HomeViewModel.Section]()
     private var dataInput: [HomeViewModel.Section] {
         get { return data }
@@ -27,7 +30,7 @@ class HomeViewController: BaseViewController, BindableType {
         }
     }
     
-
+    //MARK: - Outlets
     @IBOutlet weak var lblNotice: UILabel!
     @IBOutlet weak var btnArchive: UIBarButtonItem!
     
@@ -48,6 +51,7 @@ class HomeViewController: BaseViewController, BindableType {
         }
     }
     
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = R.string.localizable.homeTitle()
@@ -59,11 +63,13 @@ class HomeViewController: BaseViewController, BindableType {
                               searchTextDidChange: self.searchBar.rx.text.orEmpty.asObservable())
         viewModel.transform(input: input)
         
+        /// Update Data if any changes
         viewModel.output?.reloadContent.drive(onNext: { [unowned self] section in
             self.dataInput = [section]
         })
         .disposed(by: rx.disposeBag)
         
+        /// Show/hide notice label
         viewModel.output?.reloadContent
             .map { $0.elements.count > 0 ? true : false }
             .drive(lblNotice.rx.isHidden)
@@ -80,7 +86,7 @@ class HomeViewController: BaseViewController, BindableType {
         })
         .disposed(by: rx.disposeBag)
             
-        
+        /// Action Binding
         if let unwrapTrigger = viewModel.output?.itemDetailTrigger {
             collectionView.rx.itemSelected
                 .map { [unowned self] index -> MovieDataView in
@@ -100,7 +106,7 @@ class HomeViewController: BaseViewController, BindableType {
     }
 }
 
-
+//MARK: - DataSource
 extension HomeViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return data.count

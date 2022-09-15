@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import DifferenceKit
 
+/// Representation of Search Result from Itune search API and Archive list
 class MovieCell: UICollectionViewCell {
 
     @IBOutlet weak var imgArtwork: UIImageView!

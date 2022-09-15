@@ -13,6 +13,22 @@ import RxAppState
 
 class MovieDetailViewController: BaseViewController, BindableType {
     
+    ///  Model holds business logic of this view
+    internal var viewModel: MovieDetailViewModelType!
+    
+    ///Data driven in this view
+    internal var data = [MovieDataView]()
+    private var dataInput: [MovieDataView] {
+        get { return data }
+        set {
+            let changeset = StagedChangeset(source: data, target: newValue)
+            tableView.reload(using: changeset, with: .fade)  { data in
+                self.data = data
+            }
+        }
+    }
+    
+    //MARK: - Outlets
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             /// register cell & header
@@ -27,19 +43,8 @@ class MovieDetailViewController: BaseViewController, BindableType {
         }
     }
     
-    internal var viewModel: MovieDetailViewModelType!
-    internal var data = [MovieDataView]()
-    private var dataInput: [MovieDataView] {
-        get { return data }
-        set {
-            let changeset = StagedChangeset(source: data, target: newValue)
-            tableView.reload(using: changeset, with: .fade)  { data in
-                self.data = data
-            }
-        }
-    }
-    private var delegate: HomeViewController?
     
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -53,12 +58,11 @@ class MovieDetailViewController: BaseViewController, BindableType {
                 self?.dataInput = [movie]
             })
             .disposed(by: rx.disposeBag)
-        
-        
     }
 
 }
 
+//MARK: - DataSource
 extension MovieDetailViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

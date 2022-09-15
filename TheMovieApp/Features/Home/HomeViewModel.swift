@@ -14,8 +14,10 @@ import XCoordinator
 import Action
 
 class HomeViewModel: ViewModel, HomeViewModelType {
+    /// Data Object Representation will be used in owner view controller
     typealias Section = HomeOutputType.Section
     
+    // MARK: - Services
     @LazyInjected(container: .services)
     private var apiService: HomeServiceType
     
@@ -36,6 +38,7 @@ class HomeViewModel: ViewModel, HomeViewModelType {
         self.router = router
     }
     
+    // MARK: - Transform
     func transform(input: HomeInputType) {
     
         Observable.just(())
@@ -86,7 +89,7 @@ class HomeViewModel: ViewModel, HomeViewModelType {
         return section
     }
     
-    //MARK: - ACTION
+    //MARK: - private ACTION
     private lazy var itemDetailAction = Action<MovieDataView, Void> { [unowned self] item in
         return self.router.rx.trigger(.detail(movie: item))
     }
@@ -112,6 +115,7 @@ class HomeViewModel: ViewModel, HomeViewModelType {
     }
 }
 
+//MARK: - External Services
 extension HomeViewModel {
     func search(term: String) -> Observable<MovieListModel> {
         return apiService.search(term: term)

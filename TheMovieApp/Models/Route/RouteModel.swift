@@ -8,6 +8,8 @@
 import Foundation
 import XCoordinator
 
+
+/// Represent AppRoute from XCoordinator to be saved locally for last screen open feature
 struct RouteModel: Codable {
     var name: String
     var movie: MovieDataView?

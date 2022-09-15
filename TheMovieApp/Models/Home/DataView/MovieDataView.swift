@@ -8,6 +8,7 @@
 import Foundation
 import DifferenceKit
 
+/// Modified Movie Item object from Itune search API to use in View hence the name DataView
 protocol MovieDataType {
     var id: Int? { get }
     var name: String? { get }

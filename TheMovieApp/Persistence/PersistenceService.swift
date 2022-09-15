@@ -25,6 +25,9 @@ protocol DataPersistenceServiceType {
 class DataPersistenceService: DataPersistenceServiceType {
     
     //MARK: - Movie Data
+    
+    /// Save movie to disk for offline use
+    /// - Parameter movie: Object represent movie info from Itune search API
     func saveMovie(_ movie: MovieDataView) {
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { fatalError("Can't find path data") }
         do {
@@ -37,6 +40,10 @@ class DataPersistenceService: DataPersistenceServiceType {
         
     }
     
+    
+    /// Load a movie from disk, basically turn it from data to MovieDataView object
+    /// - Parameter id: id of the movie
+    /// - Returns: Complete MovieDataView Object
     func loadMovie(id: Int) -> MovieDataView? {
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { fatalError("Can't find path data") }
         do {
@@ -52,6 +59,8 @@ class DataPersistenceService: DataPersistenceServiceType {
     }
     
     
+    /// Load all saved movies from disk
+    /// - Returns: An Array of all saved movies
     func loadMovies() -> [MovieDataView] {
         do {
             // Get the document directory url
@@ -78,16 +87,25 @@ class DataPersistenceService: DataPersistenceServiceType {
     }
     
     //MARK: - Last Visited Time Data
+    
+    
+    /// Save Last time app was opened
     func saveLastVisitedTime() {
         let value = Date().toString()
         UserDefaults.standard.set(value, forKey: Constants.UserDefaultKeys.lastVisitedDateString)
     }
     
+    
+    /// Load from UserDefault Date String of last time app was  opened
+    /// - Returns: a Date string of lat time app was opened
     func lastVisitedTime() -> String? {
         UserDefaults.standard.string(forKey: Constants.UserDefaultKeys.lastVisitedDateString)
     }
     
-    //MARK:- Last Visited Route
+    //MARK: - Last Visited Route
+    
+    /// Save Last Screen app was open along with MovieDataView object if any for offline use
+    /// - Parameter route: App Route of which Screen to be saved
     func saveLastVisitedRoute(_ route: AppRoute) {
         var lastVisitRouteData = Data()
         do {
@@ -107,6 +125,9 @@ class DataPersistenceService: DataPersistenceServiceType {
         UserDefaults.standard.set(lastVisitRouteData, forKey: Constants.UserDefaultKeys.lastVisitedRoute)
     }
     
+    
+    /// Load last visit screen from
+    /// - Returns: Last Visit App Route object to know which screen was opened and MovieDataView if any
     func loadLastVisitedRoute() -> AppRoute? {
         guard let lastRouteData = UserDefaults.standard.value(forKey: Constants.UserDefaultKeys.lastVisitedRoute) as? Data else {
             return nil
