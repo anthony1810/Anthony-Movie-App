@@ -56,6 +56,14 @@ class MovieDetailViewModel: ViewModel, MovieDetailViewModelType {
             .bind(to: updateLastVisitRoute.inputs)
             .disposed(by: rx.disposeBag)
         
+        input.willDisappear
+            .map { [weak self] _ in
+                guard let `self` = self else { return }
+                self.persistenceService.saveLastVisitedRoute(AppRoute.home)
+            }
+            .subscribe()
+            .disposed(by: rx.disposeBag)
+        
         self.output = MovieDetailOutput(favoriteActionTrigger: favoriteAction.inputs, data: data.asDriver())
     }
     

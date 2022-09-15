@@ -105,7 +105,6 @@ class HomeViewModel: ViewModel, HomeViewModelType {
         guard let movie = data.value.elements.filter({ $0.id == movieId }).first else { return .just(())  }
       
         movie.isFavorite = true
-        print(data.value.elements.map { "\($0.name.orStringEmpty ) - \($0.isFavorite.orFalse)\n"})
         movie.artworkData = imgData
 
         persistenceService.saveMovie(movie)

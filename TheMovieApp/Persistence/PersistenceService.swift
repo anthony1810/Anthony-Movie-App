@@ -46,7 +46,7 @@ class DataPersistenceService: DataPersistenceServiceType {
             
             return decoded
         } catch {
-            print(error.localizedDescription)
+//            print(error.localizedDescription)
             return nil
         }
     }

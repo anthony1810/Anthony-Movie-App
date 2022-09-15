@@ -55,7 +55,8 @@ class HomeViewController: BaseViewController, BindableType {
     }
     
     internal func bindViewModel() {
-        let input = HomeInput(willAppear: rx.viewWillAppear, searchTextDidChange: self.searchBar.rx.text.orEmpty.asObservable())
+        let input = HomeInput(willAppear: rx.viewWillAppear,
+                              searchTextDidChange: self.searchBar.rx.text.orEmpty.asObservable())
         viewModel.transform(input: input)
         
         viewModel.output?.reloadContent.drive(onNext: { [unowned self] section in

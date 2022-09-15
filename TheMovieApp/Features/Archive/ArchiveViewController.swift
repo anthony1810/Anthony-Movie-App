@@ -50,7 +50,7 @@ class ArchiveViewController: BaseViewController, BindableType {
     }
     
     internal func bindViewModel() {
-        let input = ArchiveInput(willAppear: rx.viewWillAppear)
+        let input = ArchiveInput(willAppear: rx.viewWillAppear, willDisappear: rx.viewWillDisappear)
         viewModel.transform(input: input)
         
         //control view data

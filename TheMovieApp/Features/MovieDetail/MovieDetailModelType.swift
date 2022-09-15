@@ -12,10 +12,12 @@ import DifferenceKit
 //MARK: - Input
 protocol MovieDetailInputType {
     var willAppear: Observable<Bool> { get }
+    var willDisappear: Observable<Bool> { get }
 }
 
 struct MovieDetailInput: MovieDetailInputType {
     var willAppear: Observable<Bool>
+    var willDisappear: Observable<Bool> 
 }
 
 //MARK: - Output

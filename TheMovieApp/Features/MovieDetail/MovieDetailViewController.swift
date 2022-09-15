@@ -45,7 +45,7 @@ class MovieDetailViewController: BaseViewController, BindableType {
     }
     
     internal func bindViewModel() {
-        let input = MovieDetailInput(willAppear: rx.viewWillAppear)
+        let input = MovieDetailInput(willAppear: rx.viewWillAppear, willDisappear: rx.viewWillDisappear)
         viewModel.transform(input: input)
         viewModel.output?.data
             .map { $0 as! MovieDataView }

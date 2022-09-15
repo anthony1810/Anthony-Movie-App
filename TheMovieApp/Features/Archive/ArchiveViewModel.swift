@@ -45,6 +45,14 @@ class ArchiveViewModel: ViewModel, ArchiveViewModelType {
             .bind(to: self.data)
             .disposed(by: rx.disposeBag)
         
+        input.willDisappear
+            .map { [weak self] _ in
+                guard let `self` = self else { return }
+                self.persistenceService.saveLastVisitedRoute(AppRoute.home)
+            }
+            .subscribe()
+            .disposed(by: rx.disposeBag)
+        
         self.persistenceService.saveLastVisitedRoute(AppRoute.archive)
         self.output = ArchiveOutput(reloadContent: data.asDriver(), itemDetailTrigger: itemDetailAction.inputs)
     }

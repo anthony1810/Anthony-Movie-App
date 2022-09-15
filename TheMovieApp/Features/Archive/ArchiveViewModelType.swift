@@ -13,10 +13,12 @@ import DifferenceKit
 //MARK: - Input
 protocol ArchiveInputType {
     var willAppear: Observable<Bool> { get }
+    var willDisappear: Observable<Bool> { get }
 }
 
 struct ArchiveInput: ArchiveInputType {
     var willAppear: Observable<Bool>
+    var willDisappear: Observable<Bool>
 }
 
 //MARK: - Output
