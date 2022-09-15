@@ -25,6 +25,7 @@ protocol HomeOutputType {
     var reloadContent: Driver<Section> { get }
     var itemDetailTrigger: AnyObserver<MovieDataView> { get }
     var archiveButtonTrigger: AnyObserver<Void> { get }
+    var favoriteButtonTrigger: AnyObserver<(Int, Data)> { get }
     var lastVisitedDate: Driver<String?> { get }
 }
 
@@ -34,6 +35,7 @@ struct HomeOutput: HomeOutputType {
     var reloadContent: Driver<Section>
     var itemDetailTrigger: AnyObserver<MovieDataView>
     var archiveButtonTrigger: AnyObserver<Void>
+    var favoriteButtonTrigger: AnyObserver<(Int, Data)>
     var lastVisitedDate: Driver<String?>
 }
 

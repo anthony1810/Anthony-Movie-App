@@ -18,7 +18,7 @@ class MovieCell: UICollectionViewCell {
     @IBOutlet weak var btnFavorite: UIButton! {
         didSet {
             btnFavorite.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
-            btnFavorite.tintColor = .systemPink
+            btnFavorite.tintColor = .systemGray
         }
     }
     @IBOutlet weak var lblPrice: UILabel!
@@ -39,7 +39,7 @@ class MovieCell: UICollectionViewCell {
         rx.clearDisposeBag()
     }
     
-    func bind(to data: MovieCellModelType) {
+    func bind(to data: MovieCellModelType, favoriteButtonTrigger: AnyObserver<(Int, Data)>?) {
         rx.disposeBag.insert(
             data.artworkURL.drive(imgArtwork.rx
                 .imageURL(withPlaceholder: UIImage(named: R.image.artworkthumb.name),
@@ -50,8 +50,21 @@ class MovieCell: UICollectionViewCell {
             data.desc.drive(lblDesc.rx.text),
             data.price.drive(lblPrice.rx.text),
             data.genre.drive(lblGenre.rx.text),
-            data.isFavorite.map { !$0 }.drive(btnFavorite.rx.isHidden)
+            data.isFavorite.drive(onNext: { [weak self] isFavorite in
+                guard let `self` = self else { return }
+                self.btnFavorite.tintColor = isFavorite ? .systemPink : .systemGray
+            })
         )
+        
+        if let unwrapTrigger = favoriteButtonTrigger {
+            btnFavorite.rx.tap
+                .map { self.btnFavorite.tintColor = .systemPink }
+                .map { self.imgArtwork.image?.jpegData(compressionQuality: 1.0) }
+                .filterNil()
+                .map { (data.id.orZero, $0) }
+                .bind(to: unwrapTrigger)
+                .disposed(by: rx.disposeBag)
+        }
     }
 
 }

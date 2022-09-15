@@ -66,6 +66,7 @@ class HomeViewModel: ViewModel, HomeViewModelType {
         self.output = HomeOutput(reloadContent: data.asDriver(),
                                  itemDetailTrigger: itemDetailAction.inputs,
                                  archiveButtonTrigger: archiveButtonAction.inputs,
+                                 favoriteButtonTrigger: favoriteAction.inputs,
                                  lastVisitedDate: lastVisitedDate.asDriver())
         
     }
@@ -85,6 +86,7 @@ class HomeViewModel: ViewModel, HomeViewModelType {
         return section
     }
     
+    //MARK: - ACTION
     private lazy var itemDetailAction = Action<MovieDataView, Void> { [unowned self] item in
         return self.router.rx.trigger(.detail(movie: item))
     }
@@ -97,6 +99,17 @@ class HomeViewModel: ViewModel, HomeViewModelType {
         guard let lastVisitRoute = self.persistenceService.loadLastVisitedRoute() else { return Observable.just(())}
         self.persistenceService.saveLastVisitedRoute(AppRoute.home)
         return self.router.rx.trigger(.deeplink(route: lastVisitRoute))
+    }
+
+    private lazy var favoriteAction = Action<(Int, Data), Void> { [unowned self] (movieId, imgData) in
+        guard let movie = data.value.elements.filter({ $0.id == movieId }).first else { return .just(())  }
+      
+        movie.isFavorite = true
+        print(data.value.elements.map { "\($0.name.orStringEmpty ) - \($0.isFavorite.orFalse)\n"})
+        movie.artworkData = imgData
+
+        persistenceService.saveMovie(movie)
+        return .just(())
     }
 }
 

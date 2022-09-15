@@ -7,8 +7,10 @@
 
 import Foundation
 import RxCocoa
+import RxSwift
 
 protocol MovieCellModelType {
+    var id: Int? { get set }
     var artworkURL: Driver<URL?> { get set }
     var artworData: Driver<Data?> { get set }
     var name: Driver<String> { get set }
@@ -19,6 +21,7 @@ protocol MovieCellModelType {
 }
 
 class MovieCellModel: MovieCellModelType {
+    var id: Int?
     var artworkURL: Driver<URL?>
     var artworData: Driver<Data?>
     var name: Driver<String>
@@ -28,6 +31,7 @@ class MovieCellModel: MovieCellModelType {
     var isFavorite: Driver<Bool>
     
     init(with movie: MovieDataType) {
+        self.id = movie.id
         self.artworkURL = Driver.just(URL(string: movie.artwork.orStringEmpty))
         self.artworData = Driver.just(movie.artworkData)
         self.name = Driver.just(movie.name.orStringEmpty)

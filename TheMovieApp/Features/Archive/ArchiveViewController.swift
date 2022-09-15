@@ -105,7 +105,7 @@ extension ArchiveViewController: UICollectionViewDataSource {
               
         else { return UICollectionViewCell() }
         let movieModel = data[indexPath.section].elements[indexPath.row]
-        cell.bind(to: MovieCellModel(with: movieModel))
+        cell.bind(to: MovieCellModel(with: movieModel), favoriteButtonTrigger: nil)
         return cell
     }
     

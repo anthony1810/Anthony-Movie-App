@@ -115,7 +115,8 @@ extension HomeViewController: UICollectionViewDataSource {
               
         else { return UICollectionViewCell() }
         let movieModel = data[indexPath.section].elements[indexPath.row]
-        cell.bind(to: MovieCellModel(with: movieModel))
+        cell.bind(to: MovieCellModel(with: movieModel),
+                  favoriteButtonTrigger: self.viewModel.output?.favoriteButtonTrigger)
         return cell
     }
     
