@@ -7,6 +7,8 @@
 
 import Moya
 import Resolver
+import Foundation
+import UIKit
 
 
 // MARK: - NetworkingType

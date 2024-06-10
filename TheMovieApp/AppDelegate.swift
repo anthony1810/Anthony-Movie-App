@@ -12,6 +12,8 @@ import XCoordinator
 import Action
 import DifferenceKit
 import RxAppState
+import Foundation
+import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

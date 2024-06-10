@@ -10,6 +10,7 @@ import RxCocoa
 import XCoordinator
 import DifferenceKit
 import RxAppState
+import UIKit
 
 class MovieDetailViewController: BaseViewController, BindableType {
     

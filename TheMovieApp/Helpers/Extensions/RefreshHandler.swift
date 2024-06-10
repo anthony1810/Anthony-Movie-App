@@ -8,6 +8,8 @@
 import RxRelay
 import RxSwift
 import RxCocoa
+import Foundation
+import UIKit
 
 class RefreshHandler: NSObject {
     let refresh = PublishSubject<Void>()

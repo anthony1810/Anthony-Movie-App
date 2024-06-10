@@ -12,6 +12,7 @@ import XCoordinator
 import Action
 import DifferenceKit
 import ObjectMapper
+import Foundation
 
 class MovieDetailViewModel: ViewModel, MovieDetailViewModelType {
     

@@ -12,6 +12,7 @@ import Resolver
 import DifferenceKit
 import XCoordinator
 import Action
+import XCoordinatorRx
 
 class HomeViewModel: ViewModel, HomeViewModelType {
     /// Data Object Representation will be used in owner view controller

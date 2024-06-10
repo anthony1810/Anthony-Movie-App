@@ -12,6 +12,9 @@ import Resolver
 import DifferenceKit
 import XCoordinator
 import Action
+import Foundation
+import UIKit
+import XCoordinatorRx
 
 class ArchiveViewModel: ViewModel, ArchiveViewModelType {
     

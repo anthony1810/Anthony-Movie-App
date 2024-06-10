@@ -6,6 +6,8 @@
 //
 
 import Kingfisher
+import Foundation
+import UIKit
 
 class LibsManager: NSObject {
     /// The default singleton instance.

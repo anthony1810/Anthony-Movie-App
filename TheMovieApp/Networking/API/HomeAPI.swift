@@ -6,6 +6,7 @@
 //
 
 import Moya
+import Foundation
 
 public enum HomeAPI {
     case search(term: String)

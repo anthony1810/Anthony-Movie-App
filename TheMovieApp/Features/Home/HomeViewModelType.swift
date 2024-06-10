@@ -8,6 +8,8 @@
 import RxSwift
 import RxCocoa
 import DifferenceKit
+import Foundation
+
 
 //MARK: - Input
 protocol HomeInputType {

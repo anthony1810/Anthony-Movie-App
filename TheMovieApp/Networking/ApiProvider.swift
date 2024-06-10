@@ -11,6 +11,7 @@ import RxSwift
 import ObjectMapper
 import Alamofire
 import Resolver
+import RxMoya
 
 fileprivate class DefaultAlamofireManager: Alamofire.Session {
     static let sharedManager: Session = {
