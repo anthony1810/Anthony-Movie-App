@@ -4,8 +4,6 @@ Demonstrate the use of MVVM-C + RxSwift with SOLID in mind.
 
 <img src="screenshots/home.png" alt="home view" width="500"/>
 
-You can adjust the `width` (or use `height`) attribute to scale the image as needed.
-
 ### Libraries Used
 
 ## Technologies
